@@ -41,6 +41,7 @@
     "jest-cli": "^25.1.0"
   },
   "dependencies": {
-    "commander": "^4.1.0"
+    "commander": "^4.1.0",
+    "lodash": "^4.17.15"
   }
 }
