@@ -1,10 +1,9 @@
 import { has } from 'lodash';
 import getData from './utils';
+import printer from './printers';
 
 
-export default (beforePath, afterPath) => {
-  const before = getData(beforePath);
-  const after = getData(afterPath);
+export const getJSONDiff = (before, after) => {
   const keys = [...new Set(Object.keys(after).concat(Object.keys(before)))];
   return keys.reduce((acc, key) => {
     const { [key]: valBefore } = before;
@@ -19,4 +18,11 @@ export default (beforePath, afterPath) => {
     }
     return { ...acc, [`  ${key}`]: valBefore };
   }, {});
+};
+
+export const gendiff = (beforePath, afterPath) => {
+  const before = getData(beforePath);
+  const after = getData(afterPath);
+  const diff = getJSONDiff(before, after);
+  return printer(diff);
 };
