@@ -1,3 +1,3 @@
 import { readFileSync } from 'fs';
 
-export default (path) => readFileSync(path, 'utf8');
+export default (path) => JSON.parse(readFileSync(path, 'utf8'));
