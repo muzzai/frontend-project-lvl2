@@ -9,14 +9,14 @@ export const getJSONDiff = (before, after) => {
     const { [key]: valBefore } = before;
     const { [key]: valAfter } = after;
     if (valBefore !== valAfter) {
-      const added = { [`+ ${key}`]: valAfter };
-      const removed = { [`- ${key}`]: valBefore };
+      const added = { [`+ ${key}`]: String(valAfter) };
+      const removed = { [`- ${key}`]: String(valBefore) };
       if (has(after, key) && has(before, key)) {
         return { ...acc, ...removed, ...added };
       }
       return has(before, key) ? { ...acc, ...removed } : { ...acc, ...added };
     }
-    return { ...acc, [`  ${key}`]: valBefore };
+    return { ...acc, [`  ${key}`]: String(valBefore) };
   }, {});
 };
 
