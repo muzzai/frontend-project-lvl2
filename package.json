@@ -19,7 +19,8 @@
   "keywords": [
     "cli",
     "JSON",
-    "ini"
+    "ini",
+    "yaml"
   ],
   "author": "Muzzai",
   "license": "ISC",
@@ -43,6 +44,7 @@
   },
   "dependencies": {
     "commander": "^4.1.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "yamljs": "^0.3.0"
   }
 }
