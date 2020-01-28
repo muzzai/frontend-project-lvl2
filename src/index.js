@@ -10,13 +10,13 @@ export default (beforePath, afterPath) => {
     const { [key]: valBefore } = before;
     const { [key]: valAfter } = after;
     if (valBefore !== valAfter) {
-      const added = `+ ${key}: ${valAfter}`;
-      const removed = `- ${key}: ${valBefore}`;
+      const added = { [`+ ${key}`]: valAfter };
+      const removed = { [`- ${key}`]: valBefore };
       if (has(after, key) && has(before, key)) {
-        return `${acc}\n${removed}\n${added}`;
+        return { ...acc, ...removed, ...added };
       }
-      return has(before, key) ? `${acc}\n${removed}` : `${acc}\n${added}`;
+      return has(before, key) ? { ...acc, ...removed } : { ...acc, ...added };
     }
-    return `${acc}\n  ${key}: ${valBefore}`;
-  }, '');
+    return { ...acc, [`  ${key}`]: valBefore };
+  }, {});
 };
