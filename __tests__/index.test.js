@@ -1,13 +1,13 @@
 import { getJSONDiff } from '../src';
-import getJSONData from '../src/parsers';
+import getParser from '../src/parsers';
 
-const result = getJSONData('__tests__/fixtures/result.json');
-const jsonBefore = getJSONData('__tests__/fixtures/before.json');
-const jsonAfter = getJSONData('__tests__/fixtures/after.json');
-const ymlBefore = getJSONData('__tests__/fixtures/before.yml');
-const ymlAfter = getJSONData('__tests__/fixtures/after.yml');
-const iniBefore = getJSONData('__tests__/fixtures/before.ini');
-const iniAfter = getJSONData('__tests__/fixtures/after.ini');
+const result = getParser('__tests__/fixtures/result.json');
+const jsonBefore = getParser('__tests__/fixtures/before.json');
+const jsonAfter = getParser('__tests__/fixtures/after.json');
+const ymlBefore = getParser('__tests__/fixtures/before.yml');
+const ymlAfter = getParser('__tests__/fixtures/after.yml');
+const iniBefore = getParser('__tests__/fixtures/before.ini');
+const iniAfter = getParser('__tests__/fixtures/after.ini');
 
 
 test('getJSONDiff', () => {
