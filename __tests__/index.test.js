@@ -1,13 +1,13 @@
 import { getDiff } from '../src';
-import getParser from '../src/parsers';
+import getParsedData from '../src/parsers';
 
-const result = getParser('__tests__/fixtures/result.json');
-const jsonBefore = getParser('__tests__/fixtures/before.json');
-const jsonAfter = getParser('__tests__/fixtures/after.json');
-const ymlBefore = getParser('__tests__/fixtures/before.yml');
-const ymlAfter = getParser('__tests__/fixtures/after.yml');
-const iniBefore = getParser('__tests__/fixtures/before.ini');
-const iniAfter = getParser('__tests__/fixtures/after.ini');
+const result = getParsedData('__tests__/fixtures/result.json');
+const jsonBefore = getParsedData('__tests__/fixtures/before.json');
+const jsonAfter = getParsedData('__tests__/fixtures/after.json');
+const ymlBefore = getParsedData('__tests__/fixtures/before.yml');
+const ymlAfter = getParsedData('__tests__/fixtures/after.yml');
+const iniBefore = getParsedData('__tests__/fixtures/before.ini');
+const iniAfter = getParsedData('__tests__/fixtures/after.ini');
 
 
 test('getDiff', () => {

@@ -2,8 +2,8 @@ import { has } from 'lodash';
 import { writeFileSync } from 'fs';
 
 const getNTabsIndent = (num) => '\t'.repeat(num);
-
-const compareobjKeys = (key1, key2) => {
+const printPlainValue = (value) => (typeof (value) === 'object' ? '[complex value]' : value);
+const compareObjKeys = (key1, key2) => {
   if (key1 > key2) {
     return 1;
   }
@@ -13,11 +13,12 @@ const compareobjKeys = (key1, key2) => {
   return 0;
 };
 
+
 const isAdded = (value) => has(value, 'valAfter');
 const isRemoved = (value) => has(value, 'valBefore');
 const isReplaced = (value) => isRemoved(value) && isAdded(value);
 const isParent = (value) => typeof (value) === 'object' && !isRemoved(value) && !isAdded(value);
-const printPainValue = (value) => (typeof (value) === 'object' ? '[complex value]' : value);
+
 
 const findChanges = (diff) => {
   const findPathsToChanges = (obj, anc) => {
@@ -46,8 +47,8 @@ const findChanges = (diff) => {
 const convertChangesToText = (changes) => changes
   .map((change) => {
     const { path, removed, added } = change;
-    const addedVal = printPainValue(added);
-    const removedVal = printPainValue(removed);
+    const addedVal = printPlainValue(added);
+    const removedVal = printPlainValue(removed);
     const propertyPath = path.join('.');
     if (has(change, 'removed') && has(change, 'added')) {
       return `Property '${propertyPath}' was replaced from '${removedVal}' to '${addedVal}'.`;
@@ -58,14 +59,14 @@ const convertChangesToText = (changes) => changes
   .sort()
   .join('\n');
 
-export const printPlainFormat = (diff) => convertChangesToText(findChanges(diff));
+const printPlainFormat = (diff) => convertChangesToText(findChanges(diff));
 
-export const printTreeFormat = (diff) => {
+const printTreeFormat = (diff) => {
   const print = (obj, indent) => {
     if (typeof (obj) !== 'object') {
       return String(obj);
     }
-    const objKeys = Object.keys(obj).sort(compareobjKeys);
+    const objKeys = Object.keys(obj).sort(compareObjKeys);
     const tabs = getNTabsIndent(indent);
     return `{${tabs}${objKeys.reduce((acc, key) => {
       const value = obj[key];

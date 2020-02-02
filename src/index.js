@@ -1,5 +1,5 @@
 import { has } from 'lodash';
-import getParser from './parsers';
+import getParsedData from './parsers';
 import print from './printers';
 
 
@@ -25,8 +25,8 @@ export const getDiff = (before, after) => {
 
 
 export const gendiff = (beforePath, afterPath, format) => {
-  const before = getParser(beforePath);
-  const after = getParser(afterPath);
+  const before = getParsedData(beforePath);
+  const after = getParsedData(afterPath);
   const diff = getDiff(before, after);
   return print[format](diff);
 };
