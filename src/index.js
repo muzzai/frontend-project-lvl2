@@ -11,7 +11,7 @@ export const getDiff = (before, after) => {
     const { [key]: valBefore } = before;
     const { [key]: valAfter } = after;
     if (isObjects(valBefore, valAfter)) {
-      return { ...acc, [key]:  getDiff(valBefore, valAfter) };
+      return { ...acc, [key]: getDiff(valBefore, valAfter) };
     }
     if (valBefore === valAfter) {
       return { ...acc, [key]: valBefore };

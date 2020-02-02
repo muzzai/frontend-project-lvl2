@@ -14,10 +14,10 @@ const compareobjKeys = (key1, key2) => {
 };
 
 const isAdded = (value) => has(value, 'valAfter');
-const isRemoved = (value) => has(value, 'valBefore')
-const isReplaced = (value) =>  isRemoved(value) && isAdded(value);
+const isRemoved = (value) => has(value, 'valBefore');
+const isReplaced = (value) => isRemoved(value) && isAdded(value);
 const isParent = (value) => typeof (value) === 'object' && !isRemoved(value) && !isAdded(value);
-const printPainValue = (value) => typeof (value) === 'object' ? '[complex value]' : value;
+const printPainValue = (value) => (typeof (value) === 'object' ? '[complex value]' : value);
 
 const findChanges = (diff) => {
   const findPathsToChanges = (obj, anc) => {
@@ -43,22 +43,20 @@ const findChanges = (diff) => {
   return findPathsToChanges(diff, []);
 };
 
-const convertChangesToText = (changes) => {
-  return changes
-    .map((change) => {
-      const { path, removed, added } = change;
-      const addedVal = printPainValue(added);
-      const removedVal = printPainValue(removed)
-      const propertyPath = path.join(".");
-      if (has(change, 'removed') && has(change, 'added')) {
-        return `Property '${propertyPath}' was replaced from '${removedVal}' to '${addedVal}'.`;
-      }
-      return has(change, 'removed') ? `Property '${propertyPath}' was deleted.` :
-        `Property '${propertyPath}' was added with value: '${addedVal}'.`;
-    })
-    .sort()
-    .join('\n');
-}
+const convertChangesToText = (changes) => changes
+  .map((change) => {
+    const { path, removed, added } = change;
+    const addedVal = printPainValue(added);
+    const removedVal = printPainValue(removed);
+    const propertyPath = path.join('.');
+    if (has(change, 'removed') && has(change, 'added')) {
+      return `Property '${propertyPath}' was replaced from '${removedVal}' to '${addedVal}'.`;
+    }
+    return has(change, 'removed') ? `Property '${propertyPath}' was deleted.`
+      : `Property '${propertyPath}' was added with value: '${addedVal}'.`;
+  })
+  .sort()
+  .join('\n');
 
 export const printPlainFormat = (diff) => convertChangesToText(findChanges(diff));
 
@@ -76,12 +74,12 @@ export const printTreeFormat = (diff) => {
       }
       let newAcc = '';
       if (isRemoved(value)) {
-        newAcc = `${newAcc}\n${tabs}- ${key}: ${print(value['valBefore'], indent + 1)}`;
+        newAcc = `${newAcc}\n${tabs}- ${key}: ${print(value.valBefore, indent + 1)}`;
       }
       if (isAdded(value)) {
-        newAcc = `${newAcc}\n${tabs}+ ${key}: ${print(value['valAfter'], indent + 1)}`;
+        newAcc = `${newAcc}\n${tabs}+ ${key}: ${print(value.valAfter, indent + 1)}`;
       }
-      return newAcc ? `${acc}${tabs}${newAcc}`: `${acc}\n${tabs}  ${key}: ${obj[key]}`; 
+      return newAcc ? `${acc}${tabs}${newAcc}` : `${acc}\n${tabs}  ${key}: ${obj[key]}`;
     }, '')}\n${tabs}}`;
   };
   return print(diff, 0);
@@ -92,4 +90,3 @@ export default {
   plain: printPlainFormat,
   json: (diff) => writeFileSync('diff.json', JSON.stringify(diff, null, '\t')),
 };
-
