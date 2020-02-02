@@ -11,17 +11,15 @@ export const getJSONDiff = (before, after) => {
     const { [key]: valBefore } = before;
     const { [key]: valAfter } = after;
     if (isObjects(valBefore, valAfter)) {
-      return { ...acc, [`  ${key}`]: getJSONDiff(valBefore, valAfter) };
+      return { ...acc, [key]:  getJSONDiff(valBefore, valAfter) };
     }
     if (valBefore === valAfter) {
-      return { ...acc, [`  ${key}`]: valBefore };
+      return { ...acc, [key]: valBefore };
     }
-    const added = { [`+ ${key}`]: valAfter };
-    const removed = { [`- ${key}`]: valBefore };
     if (has(after, key) && has(before, key)) {
-      return { ...acc, ...removed, ...added };
+      return { ...acc, [key]: { valBefore, valAfter } };
     }
-    return has(before, key) ? { ...acc, ...removed } : { ...acc, ...added };
+    return has(before, key) ? { ...acc, [key]: { valBefore } } : { ...acc, [key]: { valAfter } };
   }, {});
 };
 
@@ -30,5 +28,5 @@ export const gendiff = (beforePath, afterPath) => {
   const before = getParser(beforePath);
   const after = getParser(afterPath);
   const diff = getJSONDiff(before, after);
-  return printer(diff, 0);
+  return printer(diff);
 };
