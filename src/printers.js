@@ -1,12 +1,7 @@
-import { uniq, has } from 'lodash';
+import { has } from 'lodash';
+import { writeFileSync } from 'fs';
 
-const getNTabsIndent = (num) => {
-  let result = '';
-  for (let i = 0; i < num; i += 1) {
-    result = `${result}\t`;
-  }
-  return result;
-};
+const getNTabsIndent = (num) => '\t'.repeat(num);
 
 const compareobjKeys = (key1, key2) => {
   if (key1 > key2) {
@@ -18,24 +13,56 @@ const compareobjKeys = (key1, key2) => {
   return 0;
 };
 
-/* const print = (obj, indent) => {
-  const objKeys = Object.keys(obj).sort(compareobjKeys);
-  const tabs = getNTabsIndent(indent);
-  return `{${tabs}${objKeys.reduce((acc, key) => {
-    const value = obj[key];
-    if (typeof (value) === 'object') {
-      return `${acc}\n${tabs}${key}: ${print(value, indent + 1)}`;
-    }
-    return `${acc}\n${tabs}${key}: ${obj[key]}`;
-  }, '')}\n${tabs}}`;
-};  */
-
 const isAdded = (value) => has(value, 'valAfter');
 const isRemoved = (value) => has(value, 'valBefore')
 const isReplaced = (value) =>  isRemoved(value) && isAdded(value);
 const isParent = (value) => typeof (value) === 'object' && !isRemoved(value) && !isAdded(value);
+const printPainValue = (value) => typeof (value) === 'object' ? '[complex value]' : value;
 
-const printTreeFormat = (diff) => {
+const findChanges = (diff) => {
+  const findPathsToChanges = (obj, anc) => {
+    const keys = Object.keys(obj);
+    return keys.reduce((acc, key) => {
+      const value = obj[key];
+      const newAnc = [...anc, key];
+      if (isParent(value)) {
+        return acc.concat(findPathsToChanges(value, newAnc));
+      }
+      if (isReplaced(value)) {
+        return [...acc, { path: newAnc, removed: value.valBefore, added: value.valAfter }];
+      }
+      if (isRemoved(value)) {
+        return [...acc, { path: newAnc, removed: value.valBefore }];
+      }
+      if (isAdded(value)) {
+        return [...acc, { path: newAnc, added: value.valAfter }];
+      }
+      return acc;
+    }, []);
+  };
+  return findPathsToChanges(diff, []);
+};
+
+const convertChangesToText = (changes) => {
+  return changes
+    .map((change) => {
+      const { path, removed, added } = change;
+      const addedVal = printPainValue(added);
+      const removedVal = printPainValue(removed)
+      const propertyPath = path.join(".");
+      if (has(change, 'removed') && has(change, 'added')) {
+        return `Property '${propertyPath}' was replaced from '${removedVal}' to '${addedVal}'.`;
+      }
+      return has(change, 'removed') ? `Property '${propertyPath}' was deleted.` :
+        `Property '${propertyPath}' was added with value: '${addedVal}'.`;
+    })
+    .sort()
+    .join('\n');
+}
+
+export const printPlainFormat = (diff) => convertChangesToText(findChanges(diff));
+
+export const printTreeFormat = (diff) => {
   const print = (obj, indent) => {
     if (typeof (obj) !== 'object') {
       return String(obj);
@@ -60,6 +87,9 @@ const printTreeFormat = (diff) => {
   return print(diff, 0);
 };
 
+export default {
+  tree: printTreeFormat,
+  plain: printPlainFormat,
+  json: (diff) => writeFileSync('diff.json', JSON.stringify(diff, null, '\t')),
+};
 
-
-export default printTreeFormat;
