@@ -1,7 +1,7 @@
 import { has } from 'lodash';
 import { writeFileSync } from 'fs';
 
-const getNxDoubleSpacesIndent = (num) => '  '.repeat(num);
+const getNOfDoubleSpaceIndent = (num) => '  '.repeat(num);
 const printPlainValue = (value) => (typeof (value) === 'object' ? '[complex value]' : value);
 
 
@@ -55,7 +55,7 @@ const printTreeFormat = (diff) => {
       return String(obj);
     }
     const objKeys = Object.keys(obj).sort();
-    const spaces = getNxDoubleSpacesIndent(indent);
+    const spaces = getNOfDoubleSpaceIndent(indent);
     return `{${objKeys.reduce((acc, key) => {
       const value = obj[key];
       if (isParent(value)) {
