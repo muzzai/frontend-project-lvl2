@@ -10,4 +10,4 @@ test.each([exts])('test %s extension', (ext) => {
   const after = getParsedData(getFixturePath('after', ext));
   const result = getParsedData('__tests__/__fixtures__/result.json');
   expect(genDiff(before, after)).toEqual(result);
-})
+});

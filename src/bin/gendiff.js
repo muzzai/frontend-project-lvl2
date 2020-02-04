@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import program from 'commander';
-import genDiff from '..';
+import printDiff from '..';
 
 program
   .version('0.0.1')
@@ -8,6 +8,6 @@ program
   .arguments('<firstConfig>, <secondConfig>')
   .option('-f, --format [type]', 'output format', 'tree')
   .action((firstConfigPath, secondConfigPath) => {
-    console.log(genDiff(firstConfigPath, secondConfigPath, program.format));
+    console.log(printDiff(firstConfigPath, secondConfigPath, program.format));
   });
 program.parse(process.argv);
