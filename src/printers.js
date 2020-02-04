@@ -1,17 +1,8 @@
 import { has } from 'lodash';
 import { writeFileSync } from 'fs';
 
-const getNTabsIndent = (num) => '\t'.repeat(num);
+const getNSpacesIndent = (num) => ' '.repeat(num);
 const printPlainValue = (value) => (typeof (value) === 'object' ? '[complex value]' : value);
-const compareObjKeys = (key1, key2) => {
-  if (key1 > key2) {
-    return 1;
-  }
-  if (key1 < key2) {
-    return -1;
-  }
-  return 0;
-};
 
 
 const isAdded = (value) => has(value, 'valAfter');
@@ -35,10 +26,7 @@ const findChanges = (diff) => {
       if (isRemoved(value)) {
         return [...acc, { path: newAnc, removed: value.valBefore }];
       }
-      if (isAdded(value)) {
-        return [...acc, { path: newAnc, added: value.valAfter }];
-      }
-      return acc;
+      return isAdded(value) ? [...acc, { path: newAnc, added: value.valAfter }] : acc;
     }, []);
   };
   return findPathsToChanges(diff, []);
@@ -66,22 +54,22 @@ const printTreeFormat = (diff) => {
     if (typeof (obj) !== 'object') {
       return String(obj);
     }
-    const objKeys = Object.keys(obj).sort(compareObjKeys);
-    const tabs = getNTabsIndent(indent);
-    return `{${tabs}${objKeys.reduce((acc, key) => {
+    const objKeys = Object.keys(obj).sort();
+    const spaces = getNSpacesIndent(indent);
+    return `{${objKeys.reduce((acc, key) => {
       const value = obj[key];
       if (isParent(value)) {
-        return `${acc}\n${tabs}  ${key}: ${print(value, indent + 1)}`;
+        return `${acc}\n${spaces}  ${key}: ${print(value, indent + 1)}`;
       }
       let newAcc = '';
       if (isRemoved(value)) {
-        newAcc = `${newAcc}\n${tabs}- ${key}: ${print(value.valBefore, indent + 1)}`;
+        newAcc = `${newAcc}\n${spaces}- ${key}: ${print(value.valBefore, indent + 1)}`;
       }
       if (isAdded(value)) {
-        newAcc = `${newAcc}\n${tabs}+ ${key}: ${print(value.valAfter, indent + 1)}`;
+        newAcc = `${newAcc}\n${spaces}+ ${key}: ${print(value.valAfter, indent + 1)}`;
       }
-      return newAcc ? `${acc}${tabs}${newAcc}` : `${acc}\n${tabs}  ${key}: ${obj[key]}`;
-    }, '')}\n${tabs}}`;
+      return newAcc ? `${acc}${spaces}${newAcc}` : `${acc}\n${spaces}  ${key}: ${obj[key]}`;
+    }, '')}\n${spaces}}`;
   };
   return print(diff, 0);
 };
@@ -89,5 +77,5 @@ const printTreeFormat = (diff) => {
 export default {
   tree: printTreeFormat,
   plain: printPlainFormat,
-  json: (diff) => writeFileSync('diff.json', JSON.stringify(diff, null, '\t')),
+  json: (diff) => writeFileSync('diff.json', JSON.stringify(diff, null, ' ')),
 };

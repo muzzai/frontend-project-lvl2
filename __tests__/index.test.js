@@ -1,4 +1,4 @@
-import { getDiff } from '../src';
+import { genDiff } from '../src';
 import getParsedData from '../src/parsers';
 
 const result = getParsedData('__tests__/fixtures/result.json');
@@ -10,8 +10,8 @@ const iniBefore = getParsedData('__tests__/fixtures/before.ini');
 const iniAfter = getParsedData('__tests__/fixtures/after.ini');
 
 
-test('getDiff', () => {
-  expect(getDiff(jsonBefore, jsonAfter)).toEqual(result);
-  expect(getDiff(ymlBefore, ymlAfter)).toEqual(result);
-  expect(getDiff(iniBefore, iniAfter)).toEqual(result);
+test('genDiff', () => {
+  expect(genDiff(jsonBefore, jsonAfter)).toEqual(result);
+  expect(genDiff(ymlBefore, ymlAfter)).toEqual(result);
+  expect(genDiff(iniBefore, iniAfter)).toEqual(result);
 });

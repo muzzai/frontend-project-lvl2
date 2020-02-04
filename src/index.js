@@ -5,13 +5,13 @@ import print from './printers';
 
 const isObjects = (data1, data2) => typeof (data1) === 'object' && typeof (data2) === 'object';
 
-export const getDiff = (before, after) => {
+export const genDiff = (before, after) => {
   const keys = [...new Set(Object.keys(before).concat(Object.keys(after)))];
   return keys.reduce((acc, key) => {
     const { [key]: valBefore } = before;
     const { [key]: valAfter } = after;
     if (isObjects(valBefore, valAfter)) {
-      return { ...acc, [key]: getDiff(valBefore, valAfter) };
+      return { ...acc, [key]: genDiff(valBefore, valAfter) };
     }
     if (valBefore === valAfter) {
       return { ...acc, [key]: valBefore };
@@ -27,6 +27,6 @@ export const getDiff = (before, after) => {
 export const gendiff = (beforePath, afterPath, format) => {
   const before = getParsedData(beforePath);
   const after = getParsedData(afterPath);
-  const diff = getDiff(before, after);
+  const diff = genDiff(before, after);
   return print[format](diff);
 };
