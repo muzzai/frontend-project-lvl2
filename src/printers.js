@@ -77,5 +77,5 @@ const printTreeFormat = (diff) => {
 export default {
   tree: printTreeFormat,
   plain: printPlainFormat,
-  json: (diff) => writeFileSync('diff.json', JSON.stringify(diff, null, ' ')),
+  json: (diff) => writeFileSync('diff.json', JSON.stringify(diff, null, 2)),
 };
