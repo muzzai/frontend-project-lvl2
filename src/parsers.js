@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-export const getNumsInsteadOfStrings = (obj) => {
+const getNumsInsteadOfStrings = (obj) => {
   const keys = Object.keys(obj);
   return keys.reduce((acc, key) => {
     const value = obj[key];

@@ -1,17 +1,13 @@
+import path from 'path';
 import { genDiff } from '../src';
 import getParsedData from '../src/parsers';
 
-const result = getParsedData('__tests__/fixtures/result.json');
-const jsonBefore = getParsedData('__tests__/fixtures/before.json');
-const jsonAfter = getParsedData('__tests__/fixtures/after.json');
-const ymlBefore = getParsedData('__tests__/fixtures/before.yml');
-const ymlAfter = getParsedData('__tests__/fixtures/after.yml');
-const iniBefore = getParsedData('__tests__/fixtures/before.ini');
-const iniAfter = getParsedData('__tests__/fixtures/after.ini');
+const getFixturePath = (filename, ext) => path.join(__dirname, '__fixtures__', `${filename}.${ext}`);
+const exts = ['json', 'yml', 'ini'];
 
-
-test('genDiff', () => {
-  expect(genDiff(jsonBefore, jsonAfter)).toEqual(result);
-  expect(genDiff(ymlBefore, ymlAfter)).toEqual(result);
-  expect(genDiff(iniBefore, iniAfter)).toEqual(result);
-});
+test.each([exts])('test %s extension', (ext) => {
+  const before = getParsedData(getFixturePath('before', ext));
+  const after = getParsedData(getFixturePath('after', ext));
+  const result = getParsedData(getFixturePath('result', 'json'));
+  expect(genDiff(before, after)).toEqual(result);
+})
