@@ -24,7 +24,7 @@ export const genDiff = (before, after) => {
 };
 
 
-export const gendiff = (beforePath, afterPath, format) => {
+export const gendiff = (beforePath, afterPath, format='tree') => {
   const before = getParsedData(beforePath);
   const after = getParsedData(afterPath);
   const diff = genDiff(before, after);
