@@ -1,54 +1,98 @@
-{
-  "common": {
-    "setting1": "Value 1",
-    "setting2": {
-      "valBefore": 200
-    },
-    "setting3": {
-      "valBefore": true,
-      "valAfter": {
-        "key": "value"
-      }
-    },
-    "setting6": {
-      "key": "value",
-      "ops": {
-        "valAfter": "vops"
-      }
-    },
-    "follow": {
-      "valAfter": false
-    },
-    "setting4": {
-      "valAfter": "blah blah"
-    },
-    "setting5": {
-      "valAfter": {
-        "key5": "value5"
-      }
-    }
-  },
-  "group1": {
-    "baz": {
-      "valBefore": "bas",
-      "valAfter": "bars"
-    },
-    "foo": "bar",
-    "nest": {
-      "valBefore": {
-        "key": "value"
+[
+  {
+    "name": "common",
+    "type": "node",
+    "children": [
+      {
+        "name": "setting1",
+        "type": "unchanged",
+        "value": "Value 1"
       },
-      "valAfter": "str"
-    }
+      {
+        "name": "setting2",
+        "type": "removed",
+        "value": 200
+      },
+      {
+        "name": "setting3",
+        "type": "replaced",
+        "value": true,
+        "valueReplaced": {
+          "key": "value"
+        }
+      },
+      {
+        "name": "setting6",
+        "type": "node",
+        "children": [
+          {
+            "name": "key",
+            "type": "unchanged",
+            "value": "value"
+          },
+          {
+            "name": "ops",
+            "type": "added",
+            "value": "vops"
+          }
+        ]
+      },
+      {
+        "name": "follow",
+        "type": "added",
+        "value": false
+      },
+      {
+        "name": "setting4",
+        "type": "added",
+        "value": "blah blah"
+      },
+      {
+        "name": "setting5",
+        "type": "added",
+        "value": {
+          "key5": "value5"
+        }
+      }
+    ]
   },
-  "group2": {
-    "valBefore": {
+  {
+    "name": "group1",
+    "type": "node",
+    "children": [
+      {
+        "name": "baz",
+        "type": "replaced",
+        "value": "bas",
+        "valueReplaced": "bars"
+      },
+      {
+        "name": "foo",
+        "type": "unchanged",
+        "value": "bar"
+      },
+      {
+        "name": "nest",
+        "type": "replaced",
+        "value": {
+          "key": "value"
+        },
+        "valueReplaced": "str"
+      }
+    ]
+  },
+  {
+    "name": "group2",
+    "type": "removed",
+    "value": {
       "abc": 12345
     }
   },
-  "group3": {
-    "valAfter": {
+  {
+    "name": "group3",
+    "type": "added",
+    "value": {
       "fee": 100500
     }
   }
-}
+]

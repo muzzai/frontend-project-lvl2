@@ -1,77 +1,59 @@
-import { has } from 'lodash';
+import { isObject, flatten } from 'lodash';
 import { writeFileSync } from 'fs';
 
-const getNOfDoubleSpaceIndent = (num) => '  '.repeat(num);
+const get2NSpaces = (num) => '  '.repeat(num);
 const printPlainValue = (value) => (typeof (value) === 'object' ? '[complex value]' : value);
-
-
-const isAdded = (value) => has(value, 'valAfter');
-const isRemoved = (value) => has(value, 'valBefore');
-const isReplaced = (value) => isRemoved(value) && isAdded(value);
-const isParent = (value) => typeof (value) === 'object' && !isRemoved(value) && !isAdded(value);
-
-
-const findChanges = (diff) => {
-  const findPathsToChanges = (obj, anc) => {
-    const keys = Object.keys(obj);
-    return keys.reduce((acc, key) => {
-      const value = obj[key];
-      const newAnc = [...anc, key];
-      if (isParent(value)) {
-        return acc.concat(findPathsToChanges(value, newAnc));
-      }
-      if (isReplaced(value)) {
-        return [...acc, { path: newAnc, removed: value.valBefore, added: value.valAfter }];
-      }
-      if (isRemoved(value)) {
-        return [...acc, { path: newAnc, removed: value.valBefore }];
-      }
-      return isAdded(value) ? [...acc, { path: newAnc, added: value.valAfter }] : acc;
-    }, []);
-  };
-  return findPathsToChanges(diff, []);
+const stringify = (val, indent) => {
+  const spaces = get2NSpaces(indent);
+  if (isObject(val)) {
+    return Object.keys(val).reduce((acc, key) => `{\n${spaces}${acc}${key}: ${val[key]}\n${spaces}}`, '');
+  }
+  return val;
 };
 
-const convertChangesToText = (changes) => changes
-  .map((change) => {
-    const { path, removed, added } = change;
-    const addedVal = printPlainValue(added);
-    const removedVal = printPlainValue(removed);
-    const propertyPath = path.join('.');
-    if (has(change, 'removed') && has(change, 'added')) {
-      return `Property '${propertyPath}' was replaced from '${removedVal}' to '${addedVal}'.`;
-    }
-    return has(change, 'removed') ? `Property '${propertyPath}' was deleted.`
-      : `Property '${propertyPath}' was added with value: '${addedVal}'.`;
-  })
-  .sort()
-  .join('\n');
+const plainDescriptions = {
+  unchanged: () => {},
+  replaced: (name, value, valueReplaced) => `Property '${name}' was replaced from '${printPlainValue(value)}' to '${printPlainValue(valueReplaced)}'.`,
+  added: (name, value) => `Property '${name}' was added with value '${printPlainValue(value)}'.`,
+  removed: (name) => `Property '${name}' was removed.`,
+};
 
-const printPlainFormat = (diff) => convertChangesToText(findChanges(diff));
+const treeFromatTable = {
+  unchanged: (indent, name, value) => `${get2NSpaces(indent)}  ${name}: ${stringify(value, indent + 2)}`,
+  replaced: (indent, name, value, valueReplaced) => `${get2NSpaces(indent)}- ${name}: ${stringify(value, indent + 2)}\n${get2NSpaces(indent)}+ ${name}: ${stringify(valueReplaced, indent + 2)}`,
+  added: (indent, name, value) => `${get2NSpaces(indent)}+ ${name}: ${stringify(value, indent + 2)}`,
+  removed: (indent, name, value) => `${get2NSpaces(indent)}- ${name}: ${stringify(value, indent + 2)}`,
+};
+
 
 const printTreeFormat = (diff) => {
-  const print = (obj, indent) => {
-    if (typeof (obj) !== 'object') {
-      return String(obj);
-    }
-    const objKeys = Object.keys(obj).sort();
-    const spaces = getNOfDoubleSpaceIndent(indent);
-    return `{${objKeys.reduce((acc, key) => {
-      const value = obj[key];
-      if (isParent(value)) {
-        return `${acc}\n${spaces}  ${key}: ${print(value, indent + 1)}`;
-      }
-      let newAcc = '';
-      if (isRemoved(value)) {
-        newAcc = `\n${spaces}- ${key}: ${print(value.valBefore, indent + 1)}`;
-      }
-      if (isAdded(value)) {
-        newAcc = `${newAcc}\n${spaces}+ ${key}: ${print(value.valAfter, indent + 1)}`;
-      }
-      return newAcc ? `${acc}${spaces}${newAcc}` : `${acc}\n${spaces}  ${key}: ${obj[key]}`;
+  const print = (tree, indent) => {
+    const spaces = get2NSpaces(indent);
+    return `{${tree.reduce((acc, setting) => {
+      const {
+        type, name, value, valueReplaced, children,
+      } = setting;
+      if (children) return `${acc}\n${spaces}  ${name}: ${print(children, indent + 1)}`;
+      return `${acc}\n${treeFromatTable[type](indent + 1, name, value, valueReplaced)}`;
     }, '')}\n${spaces}}`;
   };
   return print(diff, 0);
+};
+
+
+const printPlainFormat = (diff, parentName) => {
+  const descripted = flatten(diff
+    .map((setting) => {
+      const {
+        type, name, value, valueReplaced, children,
+      } = setting;
+      const plainName = parentName ? `${parentName}.${name}` : name;
+      if (children) return printPlainFormat(children, plainName);
+      return plainDescriptions[type](plainName, value, valueReplaced);
+    }));
+  return descripted
+    .filter((record) => record !== undefined)
+    .join('\n');
 };
 
 export default {
