@@ -25,5 +25,5 @@ jobs:
         npm test
       env:
         global: 
-          - CC_TEST_REPORTER_ID=74c0292bb85cd4e6880962820e351f7fc41d2c5872da9ec0c4360f0a18bdf26b
+          CC_TEST_REPORTER_ID=74c0292bb85cd4e6880962820e351f7fc41d2c5872da9ec0c4360f0a18bdf26b
         CI: true
