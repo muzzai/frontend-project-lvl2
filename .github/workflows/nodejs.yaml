@@ -30,7 +30,7 @@ jobs:
       matrix:
         node: [ '12', '10' ]
     name: test/node ${{ matrix.node }}/${{ matrix.platform }}
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
