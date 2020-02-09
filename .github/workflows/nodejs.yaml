@@ -29,9 +29,7 @@ jobs:
     name: coverage
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
-      with:
+        with:
         node-version: '12'
     - run: npm install -g yarn
     - run: yarn install
