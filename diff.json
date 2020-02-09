@@ -1,8 +1,13 @@
 [
   {
     "name": "common",
-    "type": "node",
+    "type": "parent",
     "children": [
+      {
+        "name": "follow",
+        "type": "added",
+        "value": false
+      },
       {
         "name": "setting1",
         "type": "unchanged",
@@ -22,8 +27,20 @@
         }
       },
       {
+        "name": "setting4",
+        "type": "added",
+        "value": "blah blah"
+      },
+      {
+        "name": "setting5",
+        "type": "added",
+        "value": {
+          "key5": "value5"
+        }
+      },
+      {
         "name": "setting6",
-        "type": "node",
+        "type": "parent",
         "children": [
           {
             "name": "key",
@@ -36,29 +53,12 @@
             "value": "vops"
           }
         ]
-      },
-      {
-        "name": "follow",
-        "type": "added",
-        "value": false
-      },
-      {
-        "name": "setting4",
-        "type": "added",
-        "value": "blah blah"
-      },
-      {
-        "name": "setting5",
-        "type": "added",
-        "value": {
-          "key5": "value5"
-        }
       }
     ]
   },
   {
     "name": "group1",
-    "type": "node",
+    "type": "parent",
     "children": [
       {
         "name": "baz",
