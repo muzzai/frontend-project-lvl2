@@ -26,7 +26,6 @@ jobs:
       env:
         CI: true
   coverage:
-    needs: [ test ]
     name: coverage
     runs-on: ubuntu-latest
     steps:
