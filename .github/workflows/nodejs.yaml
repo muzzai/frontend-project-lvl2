@@ -25,7 +25,19 @@ jobs:
         npm test
       env:
         CI: true
-    - uses: paambaati/codeclimate-action@v2.3.0
+  coverage:
+    needs: [ test ]
+    name: coverage
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12'
+    - run: npm install -g yarn
+    - run: yarn install
+    - run: yarn build
+    - uses: paambaati/codeclimate-action@v2.2.4
       env:
         CC_TEST_REPORTER_ID: 74c0292bb85cd4e6880962820e351f7fc41d2c5872da9ec0c4360f0a18bdf26b
       with:
