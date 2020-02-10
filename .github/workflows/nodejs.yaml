@@ -1,6 +1,8 @@
 name: Node CI
 
-on: [push]
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
@@ -9,51 +11,28 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [13.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: lint, install, build, and test
-      run: |
-        npm ci        
-        npx eslint .
-        npm run build --if-present
-        npm test
-      env:
-        CI: true
-  test: 
-    strategy:
-      matrix:
-        node: [ '12', '10' ]
-    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
-      with:
-        node-version: ${{ matrix.node }}
-    - run: npm install -g yarn
-    - run: yarn install
-    - run: yarn build
-    - run: yarn test
-  coverage:
-    needs: [ test ]
-    name: coverage
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
-      with:
-        node-version: '12'
-    - run: npm install -g yarn
-    - run: yarn install
-    - run: yarn build
-    - uses: paambaati/codeclimate-action@v2.2.4
-      env:
-        CC_TEST_REPORTER_ID: 74c0292bb85cd4e6880962820e351f7fc41d2c5872da9ec0c4360f0a18bdf26b
-      with:
-        coverageCommand: yarn coverage
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          make install
+          make build
+          make test
+        env:
+          CI: true
+      - name: Run linter
+        run: |
+          make lint
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.4.0
+        env:
+          CC_TEST_REPORTER_ID: 74c0292bb85cd4e6880962820e351f7fc41d2c5872da9ec0c4360f0a18bdf26b
+        with:
+          coverageCommand: make test-coverage
+          debug: true

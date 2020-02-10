@@ -1,10 +1,10 @@
 install: install-deps
 
 run:
-	npx babel-node 'src/bin/gendiff.js' $(file) $(file2)
+	npx babel-node 'src/bin/hexlet.js' 10
 
 install-deps:
-	npm install
+	npm ci
 
 build:
 	rm -rf dist
@@ -13,10 +13,13 @@ build:
 test:
 	npm test
 
+test-coverage:
+	npm test -- --coverage
+
 lint:
 	npx eslint .
 
 publish:
-	npm publish --dry-run
+	npm publish
 
 .PHONY: test
