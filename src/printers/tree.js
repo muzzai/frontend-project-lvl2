@@ -1,28 +1,28 @@
 import { isObject } from 'lodash';
 
 const get2NSpaces = (num) => '  '.repeat(num);
+const stringify = (obj, indent) => {
+  if (isObject(obj)) {
+    return `{${Object
+      .keys(obj)
+      .reduce((acc, key) => `${acc}\n${get2NSpaces(indent)}${key}: ${obj[key]}`, '')}\n${get2NSpaces(indent)}}`;
+  }
+  return obj;
+};
 
 const treeFormatTable = {
-  unchanged: (name, value) => ({ [`  ${name}`]: value }),
-  replaced: (name, value, valueReplaced) => ({ [`- ${name}`]: value, [`+ ${name}`]: valueReplaced }),
-  added: (name, value) => ({ [`+ ${name}`]: value }),
-  removed: (name, value) => ({ [`- ${name}`]: value }),
+  unchanged: (indent, name, value) => `${get2NSpaces(indent)}  ${name}: ${stringify(value, indent + 1)}`,
+  replaced: (indent, name, value, valueReplaced) => `${get2NSpaces(indent)}- ${name}: ${stringify(value, indent + 1)}\n${get2NSpaces(indent)}+ ${name}: ${stringify(valueReplaced, indent + 1)}`,
+  added: (indent, name, value) => `${get2NSpaces(indent)}+ ${name}: ${stringify(value, indent + 1)}`,
+  removed: (indent, name, value) => `${get2NSpaces(indent)}- ${name}: ${stringify(value, indent + 1)}`,
 };
-const convertToObject = (diff) => diff.reduce((acc, setting) => {
+
+const printTreeFormat = (diff, indent) => `{${diff.reduce((acc, setting) => {
   const {
     type, name, value, valueReplaced, children,
   } = setting;
-  if (type === 'parent') return { ...acc, [`  ${name}`]: convertToObject(children) };
-  return { ...acc, ...treeFormatTable[type](name, value, valueReplaced) };
-}, {});
+  if (type === 'parent') return `${acc}\n${get2NSpaces(indent)}  ${name}: ${printTreeFormat(children, indent + 1)}`;
+  return `${acc}\n${treeFormatTable[type](indent, name, value, valueReplaced)}`;
+}, '')}\n${get2NSpaces(indent)}}`;
 
-const reduceToText = (obj, indent) => {
-  if (!isObject(obj)) return String(obj);
-  const spaces = get2NSpaces(indent);
-  return `{${Object.keys(obj).reduce((acc, key) => {
-    const value = obj[key];
-    if (isObject(value)) return `${acc}\n${spaces}${key}: ${reduceToText(value, indent + 1)}`;
-    return `${acc}\n${spaces}${key}: ${value}`;
-  }, '')}\n${spaces}}`;
-};
-export default (diff) => reduceToText(convertToObject(diff), 0);
+export default (diff) => printTreeFormat(diff, 0);

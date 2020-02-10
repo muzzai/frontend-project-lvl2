@@ -10,7 +10,7 @@ const plainDescriptions = {
 };
 
 const printPlainFormat = (diff, parentName) => {
-  const descripted = flatten(diff
+  const described = flatten(diff
     .map((setting) => {
       const {
         type, name, value, valueReplaced, children,
@@ -19,7 +19,7 @@ const printPlainFormat = (diff, parentName) => {
       if (type === 'parent') return printPlainFormat(children, plainName);
       return plainDescriptions[type](plainName, value, valueReplaced);
     }));
-  return descripted
+  return described
     .filter((record) => record !== undefined)
     .join('\n');
 };

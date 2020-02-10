@@ -49,20 +49,12 @@ const treeOfTypes = [
   },
 ];
 
-const compareNodes = (node1, node2) => {
-  const { name: a } = node1;
-  const { name: b } = node2;
-  if (a > b) return 1;
-  if (a < b) return -1;
-  return 0;
-};
-export const genDiff = (before, after) => {
-  const keys = [...new Set(Object.keys(before).concat(Object.keys(after)))];
+const genDiff = (before, after) => {
+  const keys = [...new Set(Object.keys(before).concat(Object.keys(after)).sort())];
   return keys
     .map((key) => treeOfTypes
       .find((type) => type.check(key, before, after))
-      .getData(key, before, after, genDiff))
-    .sort(compareNodes);
+      .getData(key, before, after, genDiff));
 };
 
 export default (beforePath, afterPath, format = 'tree') => {
