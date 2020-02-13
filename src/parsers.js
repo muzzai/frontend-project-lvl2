@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs';
 import yaml from 'yamljs';
 import ini from 'ini';
 
@@ -16,16 +15,8 @@ const getNumsInsteadOfStrings = (obj) => {
   }, {});
 };
 
-const JSONparser = (path) => JSON.parse(readFileSync(path, 'utf8'));
-const YAMLparser = (path) => yaml.parse(readFileSync(path, 'utf8'));
-const INIparser = (path) => getNumsInsteadOfStrings(ini.parse(readFileSync(path, 'utf8')));
-const getFileType = (path) => path.split('.').pop();
-
-export default (path) => {
-  const parsers = {
-    yml: YAMLparser,
-    json: JSONparser,
-    ini: INIparser,
-  };
-  return parsers[getFileType(path)](path);
+export default {
+  yml: yaml.parse,
+  json: JSON.parse,
+  ini: (iniData) => getNumsInsteadOfStrings(ini.parse(iniData)),
 };
