@@ -5,8 +5,12 @@ import print from './printers';
 
 
 export default (beforePath, afterPath, format = 'tree') => {
-  const before = parsers[getFileType(beforePath)](readFromFile(beforePath));
-  const after = parsers[getFileType(afterPath)](readFromFile(afterPath));
+  const data1 = readFromFile(beforePath);
+  const data2 = readFromFile(afterPath);
+  const extension1 = getFileType(beforePath);
+  const extension2 = getFileType(afterPath);
+  const before = parsers[extension1](data1);
+  const after = parsers[extension2](data2);
   const diff = genDiff(before, after);
   return print[format](diff);
 };
