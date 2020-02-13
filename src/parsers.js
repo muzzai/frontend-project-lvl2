@@ -8,9 +8,8 @@ const getNumsInsteadOfStrings = (obj) => {
     if (typeof (value) === 'object') {
       return { ...acc, [key]: getNumsInsteadOfStrings(value) };
     }
-    if (value === String(parseInt(value, 10))) {
-      return { ...acc, [key]: parseInt(value, 10) };
-    }
+    if (/^\d+$/.test(value)) return { ...acc, [key]: parseInt(value, 10) };
+    if (/^\d+\.\d+$/.test(value)) return { ...acc, [key]: parseFloat(value) };
     return { ...acc, [key]: value };
   }, {});
 };
