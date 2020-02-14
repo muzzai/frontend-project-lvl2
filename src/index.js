@@ -13,5 +13,6 @@ export default (beforePath, afterPath, format = 'tree') => {
   const before = parsers[extensionBefore](dataBefore);
   const after = parsers[extensionAfter](dataAfter);
   const diff = genDiff(before, after);
-  return has(print, format) ? print[format](diff) : 'Unknown format';
+  return has(print, format) ? print[format](diff)
+    : `\n'${format}' is invalid output format. Valid formats are: 'tree', 'plain', 'json'.`;
 };
