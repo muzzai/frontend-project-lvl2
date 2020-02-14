@@ -1,14 +1,14 @@
 import { flatten, isObject } from 'lodash';
 
-const printPlainValue = (value) => {
+const stringify = (value) => {
   if (isObject(value)) return '[complex value]';
   return typeof (value) === 'string' ? `'${value}'` : value;
 };
 
 const plainDescriptions = {
   unchanged: () => [],
-  changed: (name, value, changedValue) => `Property '${name}' was changed from ${printPlainValue(value)} to ${printPlainValue(changedValue)}.`,
-  added: (name, value) => `Property '${name}' was added with value ${printPlainValue(value)}.`,
+  changed: (name, value, changedValue) => `Property '${name}' was changed from ${stringify(value)} to ${stringify(changedValue)}.`,
+  added: (name, value) => `Property '${name}' was added with value ${stringify(value)}.`,
   removed: (name) => `Property '${name}' was removed.`,
   parent: (name, value, changedValue, func, children) => func(children, name),
 };
