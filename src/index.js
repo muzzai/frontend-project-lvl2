@@ -1,3 +1,4 @@
+import { has } from 'lodash';
 import parsers from './parsers';
 import { getFileExtension, readFromFile } from './utils';
 import genDiff from './buildDiff';
@@ -12,5 +13,5 @@ export default (beforePath, afterPath, format = 'tree') => {
   const before = parsers[extensionBefore](dataBefore);
   const after = parsers[extensionAfter](dataAfter);
   const diff = genDiff(before, after);
-  return print[format](diff);
+  return has(print, format) ? print[format](diff) : 'Unknown format';
 };
