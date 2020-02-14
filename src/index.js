@@ -2,7 +2,7 @@ import { has } from 'lodash';
 import parsers from './parsers';
 import { getFileExtension, readFromFile } from './utils';
 import genDiff from './buildDiff';
-import print from './printers';
+import printers from './printers';
 
 
 export default (beforePath, afterPath, format = 'tree') => {
@@ -13,6 +13,7 @@ export default (beforePath, afterPath, format = 'tree') => {
   const before = parsers[extensionBefore](dataBefore);
   const after = parsers[extensionAfter](dataAfter);
   const diff = genDiff(before, after);
-  return has(print, format) ? print[format](diff)
-    : `\n'${format}' is invalid output format. Valid formats are: 'tree', 'plain', 'json'.`;
+  const print = has(printers, format) ? printers[format]
+    : () => `\n'${format}' is invalid output format. Valid formats are: 'tree', 'plain', 'json'.`;
+  return print(diff);
 };

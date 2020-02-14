@@ -4,20 +4,20 @@ const printPlainValue = (value) => (typeof (value) === 'object' ? '[complex valu
 
 const plainDescriptions = {
   unchanged: () => [],
-  replaced: (name, value, valueReplaced) => `Property '${name}' was replaced from '${printPlainValue(value)}' to '${printPlainValue(valueReplaced)}'.`,
+  changed: (name, value, changedValue) => `Property '${name}' was changed from '${printPlainValue(value)}' to '${printPlainValue(changedValue)}'.`,
   added: (name, value) => `Property '${name}' was added with value '${printPlainValue(value)}'.`,
   removed: (name) => `Property '${name}' was removed.`,
-  parent: (name, value, valueReplaced, func, children) => func(children, name),
+  parent: (name, value, changedValue, func, children) => func(children, name),
 };
 
 const printPlainFormat = (diff, parentName) => {
   const described = diff
     .map((setting) => {
       const {
-        type, name, value, valueReplaced, children,
+        type, name, value, changedValue, children,
       } = setting;
       const plainName = parentName ? `${parentName}.${name}` : name;
-      return plainDescriptions[type](plainName, value, valueReplaced, printPlainFormat, children);
+      return plainDescriptions[type](plainName, value, changedValue, printPlainFormat, children);
     });
   return flatten(described).join('\n');
 };

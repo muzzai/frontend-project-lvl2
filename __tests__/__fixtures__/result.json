@@ -20,9 +20,9 @@
       },
       {
         "name": "setting3",
-        "type": "replaced",
+        "type": "changed",
         "value": true,
-        "valueReplaced": {
+        "changedValue": {
           "key": "value"
         }
       },
@@ -62,9 +62,9 @@
     "children": [
       {
         "name": "baz",
-        "type": "replaced",
+        "type": "changed",
         "value": "bas",
-        "valueReplaced": "bars"
+        "changedValue": "bars"
       },
       {
         "name": "foo",
@@ -73,11 +73,11 @@
       },
       {
         "name": "nest",
-        "type": "replaced",
+        "type": "changed",
         "value": {
           "key": "value"
         },
-        "valueReplaced": "str"
+        "changedValue": "str"
       }
     ]
   },

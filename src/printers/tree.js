@@ -12,17 +12,17 @@ const stringify = (obj, indent) => {
 
 const treeFormatTable = {
   unchanged: (indent, name, value) => `${getNSpaces(indent + 1)}${name}: ${stringify(value, indent + 1)}`,
-  replaced: (indent, name, value, valueReplaced) => `${getNSpaces(indent)}  - ${name}: ${stringify(value, indent + 1)}\n${getNSpaces(indent)}  + ${name}: ${stringify(valueReplaced, indent + 1)}`,
+  changed: (indent, name, value, changedValue) => `${getNSpaces(indent)}  - ${name}: ${stringify(value, indent + 1)}\n${getNSpaces(indent)}  + ${name}: ${stringify(changedValue, indent + 1)}`,
   added: (indent, name, value) => `${getNSpaces(indent)}  + ${name}: ${stringify(value, indent + 1)}`,
   removed: (indent, name, value) => `${getNSpaces(indent)}  - ${name}: ${stringify(value, indent + 1)}`,
-  parent: (indent, name, value, valueReplaced, func, children) => `${getNSpaces(indent + 1)}${name}: ${func(children, indent + 1)}`,
+  parent: (indent, name, value, changedValue, func, children) => `${getNSpaces(indent + 1)}${name}: ${func(children, indent + 1)}`,
 };
 
 const printTreeFormat = (diff, indent) => `{${diff.reduce((acc, setting) => {
   const {
-    type, name, value, valueReplaced, children,
+    type, name, value, changedValue, children,
   } = setting;
-  return `${acc}\n${treeFormatTable[type](indent, name, value, valueReplaced, printTreeFormat, children)}`;
+  return `${acc}\n${treeFormatTable[type](indent, name, value, changedValue, printTreeFormat, children)}`;
 }, '')}\n${getNSpaces(indent)}}`;
 
 export default (diff) => printTreeFormat(diff, 0);

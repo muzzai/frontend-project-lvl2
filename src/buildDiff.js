@@ -39,9 +39,9 @@ const treeOfTypes = [
     check: (key, before, after) => has(before, key) && has(after, key),
     getData: (key, before, after) => ({
       name: key,
-      type: 'replaced',
+      type: 'changed',
       value: before[key],
-      valueReplaced: after[key],
+      changedValue: after[key],
     }),
   },
 ];
