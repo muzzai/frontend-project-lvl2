@@ -3,9 +3,10 @@ import { isObject } from 'lodash';
 const getNSpaces = (num) => '    '.repeat(num);
 const stringify = (obj, indent) => {
   if (isObject(obj)) {
-    return `{${Object
-      .keys(obj)
-      .reduce((acc, key) => `${acc}\n${getNSpaces(indent + 1)}${key}: ${obj[key]}`, '')}\n${getNSpaces(indent)}}`;
+    const text = Object.keys(obj)
+      .map((key) => `${getNSpaces(indent + 1)}${key}: ${obj[key]}`)
+      .join('\n');
+    return `{\n${text}\n${getNSpaces(indent)}}`;
   }
   return obj;
 };
@@ -28,11 +29,17 @@ const treeFormatTable = {
   ),
 };
 
-const render = (diff, indent) => `{${diff.reduce((acc, setting) => {
-  const {
-    type, name, previousValue, newValue, children,
-  } = setting;
-  return `${acc}\n${treeFormatTable[type](indent, name, previousValue, newValue, render, children)}`;
-}, '')}\n${getNSpaces(indent)}}`;
+const render = (diff, indent) => {
+  const tree = diff
+    .map((setting) => {
+      const {
+        type, name, previousValue, newValue, children,
+      } = setting;
+      const makeFormatted = treeFormatTable[type];
+      return makeFormatted(indent, name, previousValue, newValue, render, children);
+    })
+    .join('\n');
+  return `{\n${tree}\n${getNSpaces(indent)}}`;
+};
 
 export default (diff) => render(diff, 0);
