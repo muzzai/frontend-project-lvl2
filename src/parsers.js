@@ -13,8 +13,11 @@ const getNumsInsteadOfStrings = (obj) => {
   }, {});
 };
 
-export default {
-  yml: yaml.parse,
-  json: JSON.parse,
-  ini: (iniData) => getNumsInsteadOfStrings(ini.parse(iniData)),
+export default (ext) => {
+  const parsers = {
+    yml: yaml.parse,
+    json: JSON.parse,
+    ini: (iniData) => getNumsInsteadOfStrings(ini.parse(iniData)),
+  };
+  return parsers[ext];
 };

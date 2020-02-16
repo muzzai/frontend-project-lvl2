@@ -6,35 +6,40 @@
       {
         "name": "follow",
         "type": "added",
-        "value": false
+        "previousValue": null,
+        "newValue": false
       },
       {
         "name": "setting1",
         "type": "unchanged",
-        "value": "Value 1"
+        "previousValue": "Value 1",
+        "newValue": null
       },
       {
         "name": "setting2",
         "type": "removed",
-        "value": 200
+        "previousValue": 200,
+        "newValue": null
       },
       {
         "name": "setting3",
         "type": "changed",
-        "value": true,
-        "changedValue": {
+        "previousValue": true,
+        "newValue": {
           "key": "value"
         }
       },
       {
         "name": "setting4",
         "type": "added",
-        "value": "blah blah"
+        "previousValue": null,
+        "newValue": "blah blah"
       },
       {
         "name": "setting5",
         "type": "added",
-        "value": {
+        "previousValue": null,
+        "newValue": {
           "key5": "value5"
         }
       },
@@ -45,12 +50,14 @@
           {
             "name": "key",
             "type": "unchanged",
-            "value": "value"
+            "previousValue": "value",
+            "newValue": null
           },
           {
             "name": "ops",
             "type": "added",
-            "value": "vops"
+            "previousValue": null,
+            "newValue": "vops"
           }
         ]
       }
@@ -63,35 +70,38 @@
       {
         "name": "baz",
         "type": "changed",
-        "value": "bas",
-        "changedValue": "bars"
+        "previousValue": "bas",
+        "newValue": "bars"
       },
       {
         "name": "foo",
         "type": "unchanged",
-        "value": "bar"
+        "previousValue": "bar",
+        "newValue": null
       },
       {
         "name": "nest",
         "type": "changed",
-        "value": {
+        "previousValue": {
           "key": "value"
         },
-        "changedValue": "str"
+        "newValue": "str"
       }
     ]
   },
   {
     "name": "group2",
     "type": "removed",
-    "value": {
+    "previousValue": {
       "abc": 12345
-    }
+    },
+    "newValue": null
   },
   {
     "name": "group3",
     "type": "added",
-    "value": {
+    "previousValue": null,
+    "newValue": {
       "fee": 100500
     }
   }

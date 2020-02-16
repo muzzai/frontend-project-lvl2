@@ -1,4 +1,4 @@
-import { has } from 'lodash';
+import { has, union } from 'lodash';
 
 const isObjects = (data1, data2) => typeof (data1) === 'object' && typeof (data2) === 'object';
 
@@ -8,7 +8,8 @@ const treeOfTypes = [
     getData: (key, before) => ({
       name: key,
       type: 'unchanged',
-      value: before[key],
+      previousValue: before[key],
+      newValue: null,
     }),
   },
   {
@@ -16,7 +17,8 @@ const treeOfTypes = [
     getData: (key, before) => ({
       name: key,
       type: 'removed',
-      value: before[key],
+      previousValue: before[key],
+      newValue: null,
     }),
   },
   {
@@ -24,7 +26,8 @@ const treeOfTypes = [
     getData: (key, _, after) => ({
       name: key,
       type: 'added',
-      value: after[key],
+      previousValue: null,
+      newValue: after[key],
     }),
   },
   {
@@ -40,14 +43,16 @@ const treeOfTypes = [
     getData: (key, before, after) => ({
       name: key,
       type: 'changed',
-      value: before[key],
-      changedValue: after[key],
+      previousValue: before[key],
+      newValue: after[key],
     }),
   },
 ];
 
 const genDiff = (before, after) => {
-  const keys = [...new Set(Object.keys(before).concat(Object.keys(after)).sort())];
+  const beforeKeys = Object.keys(before);
+  const afterKeys = Object.keys(after);
+  const keys = union(beforeKeys, afterKeys).sort();
   return keys
     .map((key) => treeOfTypes
       .find((type) => type.check(key, before, after))
