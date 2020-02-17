@@ -1,14 +1,14 @@
 import { isObject } from 'lodash';
 
 const getNSpaces = (num) => '    '.repeat(num);
-const stringify = (obj, indent) => {
-  if (isObject(obj)) {
-    const text = Object.keys(obj)
-      .map((key) => `${getNSpaces(indent + 1)}${key}: ${obj[key]}`)
+const stringify = (value, indent) => {
+  if (isObject(value)) {
+    const text = Object.keys(value)
+      .map((key) => `${getNSpaces(indent + 1)}${key}: ${value[key]}`)
       .join('\n');
     return `{\n${text}\n${getNSpaces(indent)}}`;
   }
-  return obj;
+  return value;
 };
 
 const treeFormatTable = {

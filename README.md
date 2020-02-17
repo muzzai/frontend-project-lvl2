@@ -7,7 +7,7 @@ The difference can be displayed as a __tree__, __json__ or in __plain__ format.
 ## Install
 Clone repo
 ```
-git clone https://github.com/muzzai/frontend-project-lvl2.git
+$ git clone https://github.com/muzzai/frontend-project-lvl2.git
 ```
 Navigate to the package root folder install dependencies with
 ```
