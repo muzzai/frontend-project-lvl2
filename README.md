@@ -19,7 +19,7 @@ $ make publish
 ```
 and install it to your system globally with
 ```
-$ sudo npm install -g gendiff
+$ sudo npm link
 ```
 ## Usage
 ```
@@ -35,4 +35,4 @@ Options:
 ## Examples
 <br><a href="https://asciinema.org/a/5u85AuECVJ8G6G3y9J9mRWKlG" target="_blank"><img src="https://asciinema.org/a/5u85AuECVJ8G6G3y9J9mRWKlG.svg" /></a>
 <br><a href="https://asciinema.org/a/RIWpZW4cw8syuhXCNA3ORwAho" target="_blank"><img src="https://asciinema.org/a/RIWpZW4cw8syuhXCNA3ORwAho.svg" /></a>
-<br> <a href="https://asciinema.org/a/CRU7Y29Tr6JRUEDvwOI14jLCT" target="_blank"><img src="https://asciinema.org/a/CRU7Y29Tr6JRUEDvwOI14jLCT.svg" /></a>
+<br> <a href="https://asciinema.org/a/czmA4kWzBXHZXDZyTunHLLsKj" target="_blank"><img src="https://asciinema.org/a/czmA4kWzBXHZXDZyTunHLLsKj.svg" /></a>
