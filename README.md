@@ -13,7 +13,11 @@ Navigate to the package root folder and run
 ```
 make install
 ```
-or
+then
+```
+make build
+```
+then
 ```
 npm link
 ```
