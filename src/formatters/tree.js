@@ -4,7 +4,7 @@ const getNSpaces = (num) => '    '.repeat(num);
 const stringify = (value, indent) => {
   if (isObject(value)) {
     const text = Object.keys(value)
-      .map((key) => `${getNSpaces(indent + 1)}${key}: ${value[key]}`)
+      .map((key) => `${getNSpaces(indent)}    ${key}: ${value[key]}`)
       .join('\n');
     return `{\n${text}\n${getNSpaces(indent)}}`;
   }
@@ -12,11 +12,11 @@ const stringify = (value, indent) => {
 };
 
 const treeFormatTable = {
-  unchanged: (indent, name, previousValue) => (
-    `${getNSpaces(indent + 1)}${name}: ${stringify(previousValue, indent + 1)}`
+  parent: (indent, name, previousValue, newValue, func, children) => (
+    `${getNSpaces(indent)}    ${name}: ${func(children, indent + 1)}`
   ),
-  changed: (indent, name, previousValue, newValue) => (
-    `${getNSpaces(indent)}  - ${name}: ${stringify(previousValue, indent + 1)}\n${getNSpaces(indent)}  + ${name}: ${stringify(newValue, indent + 1)}`
+  unchanged: (indent, name, previousValue) => (
+    `${getNSpaces(indent)}    ${name}: ${stringify(previousValue, indent + 1)}`
   ),
   added: (indent, name, previousValue, newValue) => (
     `${getNSpaces(indent)}  + ${name}: ${stringify(newValue, indent + 1)}`
@@ -24,8 +24,8 @@ const treeFormatTable = {
   removed: (indent, name, previousValue) => (
     `${getNSpaces(indent)}  - ${name}: ${stringify(previousValue, indent + 1)}`
   ),
-  parent: (indent, name, previousValue, newValue, func, children) => (
-    `${getNSpaces(indent + 1)}${name}: ${func(children, indent + 1)}`
+  changed: (indent, name, previousValue, newValue) => (
+    `${getNSpaces(indent)}  - ${name}: ${stringify(previousValue, indent + 1)}\n${getNSpaces(indent)}  + ${name}: ${stringify(newValue, indent + 1)}`
   ),
 };
 
