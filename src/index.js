@@ -9,8 +9,8 @@ export default (firstPath, secondPath, format = 'tree') => {
   const secondData = readFromFile(secondPath);
   const firstExtension = getFileExtension(firstPath);
   const secondExtension = getFileExtension(secondPath);
-  const parseFirstConfig = getParser(firstExtension)
-  const parseSecondConfig = getParser(secondExtension)
+  const parseFirstConfig = getParser(firstExtension);
+  const parseSecondConfig = getParser(secondExtension);
   const first = parseFirstConfig(firstData);
   const second = parseSecondConfig(secondData);
   const diff = genDiff(first, second);
