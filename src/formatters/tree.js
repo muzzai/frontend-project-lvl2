@@ -18,14 +18,14 @@ const treeFormatTable = {
   unchanged: (indent, name, previousValue) => (
     `${getNSpaces(indent)}    ${name}: ${stringify(previousValue, indent + 1)}`
   ),
-  added: (indent, name, previousValue, newValue) => (
-    `${getNSpaces(indent)}  + ${name}: ${stringify(newValue, indent + 1)}`
-  ),
   removed: (indent, name, previousValue) => (
     `${getNSpaces(indent)}  - ${name}: ${stringify(previousValue, indent + 1)}`
   ),
   changed: (indent, name, previousValue, newValue) => (
     `${getNSpaces(indent)}  - ${name}: ${stringify(previousValue, indent + 1)}\n${getNSpaces(indent)}  + ${name}: ${stringify(newValue, indent + 1)}`
+  ),
+  added: (indent, name, previousValue, newValue) => (
+    `${getNSpaces(indent)}  + ${name}: ${stringify(newValue, indent + 1)}`
   ),
 };
 

@@ -6,15 +6,15 @@ const stringify = (value) => {
 };
 
 const plainDescriptions = {
+  parent: (name, value, newValue, func, children) => func(children, name),
+  unchanged: () => [],
+  removed: (name) => `Property '${name}' was removed.`,
   changed: (name, previousValue, newValue) => (
     `Property '${name}' was changed from ${stringify(previousValue)} to ${stringify(newValue)}.`
   ),
   added: (name, previousValue, newValue) => (
     `Property '${name}' was added with value ${stringify(newValue)}.`
   ),
-  removed: (name) => `Property '${name}' was removed.`,
-  unchanged: () => [],
-  parent: (name, value, newValue, func, children) => func(children, name),
 };
 
 const render = (diff, parentName) => {
