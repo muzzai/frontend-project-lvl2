@@ -11,19 +11,19 @@ git clone https://github.com/muzzai/frontend-project-lvl2.git
 ```
 Navigate to the package root folder and run
 ```
-make install
+$ make install
 ```
-then
+to install dependencies, then publish the package locally with
 ```
-make build
+$ make publish
 ```
-then
+and after publishing install it to your system globally with
 ```
-npm link
+$ sudo npm install -g gendiff
 ```
 ## Usage
 ```
-Usage: gendiff [options] <firstConfig>> <secondConfig>
+Usage: gendiff [options] <firstConfig> <secondConfig>
 
 Compares two configuration files and shows a difference.
 
