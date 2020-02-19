@@ -7,25 +7,25 @@
         "name": "follow",
         "type": "added",
         "previousValue": null,
-        "newValue": false
+        "currentValue": false
       },
       {
         "name": "setting1",
         "type": "unchanged",
         "previousValue": "Value 1",
-        "newValue": null
+        "currentValue": null
       },
       {
         "name": "setting2",
         "type": "removed",
         "previousValue": 200,
-        "newValue": null
+        "currentValue": null
       },
       {
         "name": "setting3",
         "type": "changed",
         "previousValue": true,
-        "newValue": {
+        "currentValue": {
           "key": "value"
         }
       },
@@ -33,13 +33,13 @@
         "name": "setting4",
         "type": "added",
         "previousValue": null,
-        "newValue": "blah blah"
+        "currentValue": "blah blah"
       },
       {
         "name": "setting5",
         "type": "added",
         "previousValue": null,
-        "newValue": {
+        "currentValue": {
           "key5": "value5"
         }
       },
@@ -51,13 +51,13 @@
             "name": "key",
             "type": "unchanged",
             "previousValue": "value",
-            "newValue": null
+            "currentValue": null
           },
           {
             "name": "ops",
             "type": "added",
             "previousValue": null,
-            "newValue": "vops"
+            "currentValue": "vops"
           }
         ]
       }
@@ -71,13 +71,13 @@
         "name": "baz",
         "type": "changed",
         "previousValue": "bas",
-        "newValue": "bars"
+        "currentValue": "bars"
       },
       {
         "name": "foo",
         "type": "unchanged",
         "previousValue": "bar",
-        "newValue": null
+        "currentValue": null
       },
       {
         "name": "nest",
@@ -85,7 +85,7 @@
         "previousValue": {
           "key": "value"
         },
-        "newValue": "str"
+        "currentValue": "str"
       }
     ]
   },
@@ -95,13 +95,13 @@
     "previousValue": {
       "abc": 12345
     },
-    "newValue": null
+    "currentValue": null
   },
   {
     "name": "group3",
     "type": "added",
     "previousValue": null,
-    "newValue": {
+    "currentValue": {
       "fee": 100500
     }
   }

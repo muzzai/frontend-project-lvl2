@@ -1,6 +1,6 @@
-import { has, union } from 'lodash';
+import { has, union, isObject } from 'lodash';
 
-const isObjects = (data1, data2) => typeof (data1) === 'object' && typeof (data2) === 'object';
+const isObjects = (data1, data2) => isObject(data1) && isObject(data2);
 
 const treeOfTypes = [
   {
@@ -9,7 +9,7 @@ const treeOfTypes = [
       name: key,
       type: 'unchanged',
       previousValue: before[key],
-      newValue: null,
+      currentValue: null,
     }),
   },
   {
@@ -18,7 +18,7 @@ const treeOfTypes = [
       name: key,
       type: 'removed',
       previousValue: before[key],
-      newValue: null,
+      currentValue: null,
     }),
   },
   {
@@ -27,7 +27,7 @@ const treeOfTypes = [
       name: key,
       type: 'added',
       previousValue: null,
-      newValue: after[key],
+      currentValue: after[key],
     }),
   },
   {
@@ -44,7 +44,7 @@ const treeOfTypes = [
       name: key,
       type: 'changed',
       previousValue: before[key],
-      newValue: after[key],
+      currentValue: after[key],
     }),
   },
 ];
