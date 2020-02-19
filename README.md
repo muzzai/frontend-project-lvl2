@@ -9,7 +9,7 @@ Clone repo
 ```
 $ git clone https://github.com/muzzai/frontend-project-lvl2.git
 ```
-Navigate to the package root folder install dependencies with
+Navigate to the package root folder and install dependencies with
 ```
 $ make install
 ```
