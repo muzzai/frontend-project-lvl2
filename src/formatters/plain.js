@@ -1,4 +1,4 @@
-import { flatten, isObject } from 'lodash';
+import { isObject } from 'lodash';
 
 const stringify = (value) => {
   if (isObject(value)) return '[complex value]';
@@ -27,7 +27,7 @@ const render = (diff, parentName) => {
       const makeDescription = plainDescriptions[type];
       return makeDescription(plainName, previousValue, currentValue, render, children);
     });
-  return flatten(described).join('\n');
+  return described.filter(setting => setting.length !== 0).join('\n');
 };
 
 export default render;
