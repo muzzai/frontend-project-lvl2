@@ -6,7 +6,7 @@ const stringify = (value) => {
 };
 
 const plainDescriptions = {
-  parent: (name, value, currentValue, func, children) => func(children, name),
+  parent: (name, previousValue, currentValue, func, children) => func(children, name),
   unchanged: () => [],
   removed: (name) => `Property '${name}' was removed.`,
   changed: (name, previousValue, currentValue) => (
