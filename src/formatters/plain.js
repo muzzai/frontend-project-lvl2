@@ -27,7 +27,7 @@ const render = (diff, parentName) => {
       const makeDescription = plainDescriptions[type];
       return makeDescription(plainName, previousValue, currentValue, render, children);
     });
-  return described.filter(setting => setting.length !== 0).join('\n');
+  return described.filter((setting) => setting.length !== 0).join('\n');
 };
 
 export default render;
