@@ -1,14 +1,15 @@
+import { extname } from 'path';
+import { readFileSync } from 'fs';
 import getParser from './parsers';
-import { getFileExtension, readFromFile } from './utils';
 import genDiff from './buildDiff';
 import getFormatter from './formatters';
 
 
 export default (firstPath, secondPath, format = 'tree') => {
-  const firstData = readFromFile(firstPath);
-  const secondData = readFromFile(secondPath);
-  const firstExtension = getFileExtension(firstPath);
-  const secondExtension = getFileExtension(secondPath);
+  const firstData = readFileSync(firstPath, 'utf-8');
+  const secondData = readFileSync(secondPath, 'utf-8');
+  const firstExtension = extname(firstPath);
+  const secondExtension = extname(secondPath);
   const parseFirstConfig = getParser(firstExtension);
   const parseSecondConfig = getParser(secondExtension);
   const first = parseFirstConfig(firstData);
