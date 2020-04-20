@@ -4,12 +4,6 @@
     "type": "parent",
     "children": [
       {
-        "name": "follow",
-        "type": "added",
-        "previousValue": null,
-        "currentValue": false
-      },
-      {
         "name": "setting1",
         "type": "unchanged",
         "previousValue": "Value 1",
@@ -30,20 +24,6 @@
         }
       },
       {
-        "name": "setting4",
-        "type": "added",
-        "previousValue": null,
-        "currentValue": "blah blah"
-      },
-      {
-        "name": "setting5",
-        "type": "added",
-        "previousValue": null,
-        "currentValue": {
-          "key5": "value5"
-        }
-      },
-      {
         "name": "setting6",
         "type": "parent",
         "children": [
@@ -60,6 +40,26 @@
             "currentValue": "vops"
           }
         ]
+      },
+      {
+        "name": "follow",
+        "type": "added",
+        "previousValue": null,
+        "currentValue": false
+      },
+      {
+        "name": "setting4",
+        "type": "added",
+        "previousValue": null,
+        "currentValue": "blah blah"
+      },
+      {
+        "name": "setting5",
+        "type": "added",
+        "previousValue": null,
+        "currentValue": {
+          "key5": "value5"
+        }
       }
     ]
   },

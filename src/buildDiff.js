@@ -52,7 +52,7 @@ const treeOfTypes = [
 const genDiff = (before, after) => {
   const beforeKeys = Object.keys(before);
   const afterKeys = Object.keys(after);
-  const keys = union(beforeKeys, afterKeys).sort();
+  const keys = union(beforeKeys, afterKeys);
   return keys
     .map((key) => treeOfTypes
       .find((type) => type.check(key, before, after))

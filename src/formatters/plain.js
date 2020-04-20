@@ -7,7 +7,7 @@ const stringify = (value) => {
 
 const plainDescriptions = {
   parent: (name, previousValue, currentValue, func, children) => func(children, name),
-  unchanged: () => [],
+  unchanged: () => '',
   removed: (name) => `Property '${name}' was removed.`,
   changed: (name, previousValue, currentValue) => (
     `Property '${name}' was changed from ${stringify(previousValue)} to ${stringify(currentValue)}.`
@@ -27,7 +27,7 @@ const render = (diff, parentName) => {
       const makeDescription = plainDescriptions[type];
       return makeDescription(plainName, previousValue, currentValue, render, children);
     });
-  return described.filter((setting) => setting.length !== 0).join('\n');
+  return described.filter(setting => setting).join('\n');
 };
 
 export default render;
